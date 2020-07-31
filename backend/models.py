@@ -1,6 +1,5 @@
 from django.db import models
 
-
 class Profesor(models.Model):
     nombre = models.CharField(max_length=60)
     correo = models.EmailField()
@@ -12,12 +11,6 @@ class Estudiante(models.Model):
     numCelular = models.IntegerField()
     numAcudiente = models.IntegerField()
 
-class Materia(models.Model):
-    profesor = models.ForeignKey(Profesor, related_name='materias', on_delete=models.CASCADE)
-    nombre = models.CharField(max_length=60)
-    cantidad_estudiantes = models.IntegerField()
-    bimestre = models.IntegerField()
-
 class Cuaderno(models.Model):
     trabajos = models.TextField(null=True)
     estudiante = models.ForeignKey(Estudiante, related_name='cuadernos', on_delete=models.CASCADE)
@@ -27,8 +20,17 @@ class Cuaderno(models.Model):
         ('2', 'dos'),
     ]
 
-    clasificacion = models.CharField(max_length=2, choices=CLASIFICACIONES, default='1')
-    materia = models.ForeignKey(Materia, related_name='cuadernos', on_delete=models.CASCADE)
+    clasificacion = models.CharField(
+        max_length=2, choices=CLASIFICACIONES, default='1')
+
+class Materia(models.Model):
+    profesor = models.ForeignKey(Profesor, on_delete=models.CASCADE)
+    nombre = models.CharField(max_length=60)
+    cantidad_estudiantes = models.IntegerField()
+    bimestre = models.IntegerField()
+    grado = models.IntegerField()
+    color = models.CharField(max_length=10)
+    cuadernos = models.ManyToManyField(Cuaderno)
 
 class Criterio(models.Model):
     materia = models.ForeignKey(Materia, related_name='criterios', on_delete=models.CASCADE)
