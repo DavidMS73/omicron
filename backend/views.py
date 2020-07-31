@@ -8,6 +8,15 @@ from .models import Profesor, Actividad, Criterio, Cuaderno, Estudiante, Materia
 from .utils import generate_qr
 from .decorators import validate_request_data
 from rest_framework.throttling import UserRateThrottle, AnonRateThrottle
+from django.http import HttpResponse, HttpResponseBadRequest
+from django.views import View
+import json
+import backend.utils as ut
+from django.views.decorators.csrf import csrf_exempt
+from .fpdf.converter import *
+from django.utils.decorators import method_decorator
+
+
 # Create your views here.
 
 
@@ -64,3 +73,22 @@ class ActividadViewSet(viewsets.ModelViewSet):
 class CuadernoViewSet(viewsets.ModelViewSet):
     queryset = Cuaderno.objects.all()
     serializer_class = CuadernoSerializer
+
+
+@method_decorator(csrf_exempt, name='dispatch')
+class ActividadSubmitView(View):
+    @csrf_exempt
+    def post(self, request):
+        data = json.loads(request.body)
+        if 'codEst' in data and 'celProf' in data:
+            codEst = data['codEst']
+            celProf = data['celProf']
+            entregas = data['entregas']
+            ut.agregarActividades(celProf, codEst, entregas)
+            return HttpResponse()
+        else:
+            return HttpResponseBadRequest()
+
+
+class CreatePDF(viewsets.ViewSet):
+    crearDoc()
