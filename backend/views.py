@@ -1,32 +1,65 @@
 from rest_framework import viewsets
-from .serializers import ProfesorSerializer, ActividadSerializer, CriterioSerializer, CuadernoSerializer, EstudianteSerializer, MateriaSerializer, TemaSerializer
+from rest_framework import generics
+from rest_framework import permissions
+from rest_framework.response import Response
+from rest_framework.views import status, APIView
+from .serializers import ProfesorSerializer, ActividadSerializer, CriterioSerializer, CuadernoSerializer, EstudianteSerializer, MateriaSerializer, TemaSerializer, QRSerializer
 from .models import Profesor, Actividad, Criterio, Cuaderno, Estudiante, Materia, Tema
-
+from .utils import generate_qr
+from .decorators import validate_request_data
+from rest_framework.throttling import UserRateThrottle, AnonRateThrottle
 # Create your views here.
+
+
+class CreateQRView(generics.CreateAPIView):
+    """
+    POST create/
+    """
+    permission_classes = (permissions.AllowAny,)
+    queryset = ''
+    serializer_class = QRSerializer
+    throttle_classes = [AnonRateThrottle]
+
+    @validate_request_data
+    def post(self, request, *args, **kwargs):
+        text = request.data['text']
+        output = generate_qr(text)
+        result = QRSerializer(output).data
+        return Response(
+            data=result,
+            status=status.HTTP_201_CREATED
+        )
+
 
 class ProfesorViewSet(viewsets.ModelViewSet):
     queryset = Profesor.objects.all()
     serializer_class = ProfesorSerializer
 
+
 class EstudianteViewSet(viewsets.ModelViewSet):
     queryset = Estudiante.objects.all()
     serializer_class = EstudianteSerializer
+
 
 class MateriaViewSet(viewsets.ModelViewSet):
     queryset = Materia.objects.all()
     serializer_class = MateriaSerializer
 
+
 class TemaViewSet(viewsets.ModelViewSet):
     queryset = Tema.objects.all()
     serializer_class = TemaSerializer
+
 
 class CriterioViewSet(viewsets.ModelViewSet):
     queryset = Criterio.objects.all()
     serializer_class = CriterioSerializer
 
+
 class ActividadViewSet(viewsets.ModelViewSet):
     queryset = Actividad.objects.all()
     serializer_class = ActividadSerializer
+
 
 class CuadernoViewSet(viewsets.ModelViewSet):
     queryset = Cuaderno.objects.all()
