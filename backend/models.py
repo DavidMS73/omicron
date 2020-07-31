@@ -28,8 +28,8 @@ class Materia(models.Model):
     nombre = models.CharField(max_length=60)
     cantidad_estudiantes = models.IntegerField()
     bimestre = models.IntegerField()
-    grado = models.IntegerField()
-    color = models.CharField(max_length=10)
+    grado = models.IntegerField(default=0)
+    color = models.CharField(max_length=10, default='1')
     cuadernos = models.ManyToManyField(Cuaderno)
 
 class Criterio(models.Model):
