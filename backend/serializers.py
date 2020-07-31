@@ -18,25 +18,26 @@ class CriterioSerializer(serializers.HyperlinkedModelSerializer):
         model = Criterio
         fields = ('id', 'materia', 'nombre', 'descripcion', 'esCuantitativa', 'porcentaje', 'fechaInicio', 'fechaLimite', 'actividades')
 
+
+class MateriaSerializer(serializers.HyperlinkedModelSerializer):
+    criterios = CriterioSerializer(many=True)
+    temas = TemaSerializer(many=True)
+    class Meta:
+        model = Materia
+        fields = ('id', 'profesor', 'nombre', 'cantidad_estudiantes', 'bimestre', 'cuadernos', 'criterios', 'temas')
+
 class CuadernoSerializer(serializers.HyperlinkedModelSerializer):
     actividades = ActividadSerializer(many=True)
+    #materia = MateriaSerializer()
     class Meta:
         model = Cuaderno
-        fields = ('id', 'trabajos', 'estudiante', 'clasificacion', 'materia', 'actividades')
+        fields = ('id', 'trabajos', 'estudiante', 'clasificacion', 'actividades')
 
 class EstudianteSerializer(serializers.HyperlinkedModelSerializer):
     cuadernos = CuadernoSerializer(many=True, read_only=True)
     class Meta:
         model = Estudiante
         fields = ('id', 'codigo', 'nombre', 'numCelular', 'numAcudiente', 'cuadernos')
-
-class MateriaSerializer(serializers.HyperlinkedModelSerializer):
-    cuadernos = CuadernoSerializer(many=True, read_only=True)
-    criterios = CriterioSerializer(many=True)
-    temas = TemaSerializer(many=True)
-    class Meta:
-        model = Materia
-        fields = ('id', 'profesor', 'nombre', 'cantidad_estudiantes', 'bimestre', 'cuadernos', 'criterios', 'temas')
 
 class ProfesorSerializer(serializers.HyperlinkedModelSerializer):
     materias = MateriaSerializer(many=True, read_only=True)

@@ -3,7 +3,7 @@ from django.db import models
 class Profesor(models.Model):
     nombre = models.CharField(max_length=60)
     correo = models.EmailField()
-    celular = models.IntegerField()
+    celular = models.CharField(max_length=15)
 
 class Estudiante(models.Model):
     codigo = models.CharField(max_length=10, default='0')
