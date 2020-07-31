@@ -3,8 +3,8 @@ from rest_framework import generics
 from rest_framework import permissions
 from rest_framework.response import Response
 from rest_framework.views import status, APIView
-from .serializers import ProfesorSerializer, ActividadSerializer, CriterioSerializer, CuadernoSerializer, EstudianteSerializer, MateriaSerializer, TemaSerializer, QRSerializer
-from .models import Profesor, Actividad, Criterio, Cuaderno, Estudiante, Materia, Tema
+from .serializers import ProfesorSerializer, ActividadSerializer, CriterioSerializer, CuadernoSerializer, EstudianteSerializer, MateriaSerializer, TemaSerializer, QRSerializer, EntregaSerializer
+from .models import Profesor, Actividad, Criterio, Cuaderno, Estudiante, Materia, Tema, Entrega
 from .utils import generate_qr
 from .decorators import validate_request_data
 from rest_framework.throttling import UserRateThrottle, AnonRateThrottle
@@ -74,6 +74,9 @@ class CuadernoViewSet(viewsets.ModelViewSet):
     queryset = Cuaderno.objects.all()
     serializer_class = CuadernoSerializer
 
+class EntregaViewSet(viewsets.ModelViewSet):
+    queryset = Entrega.objects.all()
+    serializer_class = EntregaSerializer
 
 @method_decorator(csrf_exempt, name='dispatch')
 class ActividadSubmitView(View):

@@ -11,6 +11,7 @@ router.register(r'criterios', views.CriterioViewSet)
 router.register(r'temas', views.TemaViewSet)
 router.register(r'actividades', views.ActividadViewSet)
 router.register(r'cuadernos', views.CuadernoViewSet)
+router.register(r'entregas', views.EntregaViewSet)
 #router.register(r'createPDF', views.CreatePDF)
 
 # Wire up our API using automatic URL routing.

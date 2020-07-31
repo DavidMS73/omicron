@@ -9,7 +9,7 @@ def agregarActividades(celProf: str, codEst: str, entregas: str):
             cuaderno = estudiante.cuadernos.get(clasificacion='1')
         except:
             cuaderno = estudiante.cuadernos.create(clasificacion='1')
-        cuaderno.actividades.create(
-            comentario='No se logró reconocer la actividad.', entregas=entregas)
+        cuaderno.entregas.create(
+            comentario='No se logró reconocer la actividad.', archivos=entregas)
     except Exception as e:
         print('################# Super F #################', str(e))
