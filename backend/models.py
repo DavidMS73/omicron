@@ -6,11 +6,13 @@ class Profesor(models.Model):
     correo = models.EmailField()
     celular = models.IntegerField()
 
+
 class Estudiante(models.Model):
     id = models.PositiveIntegerField(primary_key=True)
     nombre = models.CharField(max_length=60)
     numCelular = models.IntegerField()
     numAcudiente = models.IntegerField()
+
 
 class Cuaderno(models.Model):
     id = models.PositiveIntegerField(primary_key=True)
@@ -22,14 +24,19 @@ class Cuaderno(models.Model):
         ('2', 'dos'),
     ]
 
-    clasificacion = models.CharField(max_length=2, choices=CLASIFICACIONES, default='1')
+    clasificacion = models.CharField(
+        max_length=2, choices=CLASIFICACIONES, default='1')
+
 
 class Materia(models.Model):
     profesor = models.ForeignKey(Profesor, on_delete=models.CASCADE)
     nombre = models.CharField(max_length=60)
     cantidad_estudiantes = models.IntegerField()
     bimestre = models.IntegerField()
+    grado = models.IntegerField()
+    color = models.CharField(max_length=10)
     cuadernos = models.ManyToManyField(Cuaderno)
+
 
 class Criterio(models.Model):
     nombre = models.CharField(max_length=60)
@@ -39,6 +46,7 @@ class Criterio(models.Model):
     fechaInicio = models.DateTimeField(auto_now_add=True)
     fechaLimite = models.DateTimeField()
 
+
 class Actividad(models.Model):
     id = models.PositiveIntegerField(primary_key=True)
     cuaderno = models.ForeignKey(Cuaderno, on_delete=models.CASCADE)
@@ -47,6 +55,7 @@ class Actividad(models.Model):
     nota = models.DecimalField(max_digits=5, decimal_places=2)
     comentario = models.CharField(max_length=250)
     entregas = models.TextField(null=True)
+
 
 class Tema(models.Model):
     materia = models.ForeignKey(Materia, on_delete=models.CASCADE)
