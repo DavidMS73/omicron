@@ -11,7 +11,7 @@ from rest_framework.throttling import UserRateThrottle, AnonRateThrottle
 from django.http import HttpResponse, HttpResponseBadRequest
 from django.views import View
 import json
-import backend.utils as ut
+import backend.activityProcessing as ap
 from django.views.decorators.csrf import csrf_exempt
 from .fpdf.converter import *
 from django.utils.decorators import method_decorator
@@ -84,7 +84,7 @@ class ActividadSubmitView(View):
             codEst = data['codEst']
             celProf = data['celProf']
             entregas = data['entregas']
-            ut.agregarActividades(celProf, codEst, entregas)
+            ap.agregarActividades(celProf, codEst, entregas)
             return HttpResponse()
         else:
             return HttpResponseBadRequest()

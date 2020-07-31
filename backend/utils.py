@@ -1,7 +1,6 @@
 import base64
 import qrcode
 import io
-from .models import Profesor, Estudiante, Cuaderno, Actividad
 
 
 def generate_qr_code(data, size=10, border=0):
@@ -24,18 +23,3 @@ def generate_qr(url_text):
     context_dict['file_type'] = "png"
     context_dict['image_base64'] = img_name
     return context_dict
-
-
-# Varias funciones que se centran en tareas principales del sistema
-def agregarActividades(celProf: str, codEst: str, entregas: str):
-    try:
-        profesor = Profesor.objects.get(celular=celProf)
-        estudiante = Estudiante.objects.get(codigo=codEst)
-        try:
-            cuaderno = estudiante.cuadernos.get(clasificacion='1')
-        except:
-            cuaderno = estudiante.cuadernos.create(clasificacion='1')
-        cuaderno.actividades.create(
-            comentario='No se logró reconocer la actividad.', entregas=entregas)
-    except Exception as e:
-        print('################# Super F #################', str(e))
