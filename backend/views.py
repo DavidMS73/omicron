@@ -1,7 +1,7 @@
 from rest_framework import viewsets
 from .serializers import ProfesorSerializer, ActividadSerializer, CriterioSerializer, CuadernoSerializer, EstudianteSerializer, MateriaSerializer, TemaSerializer
 from .models import Profesor, Actividad, Criterio, Cuaderno, Estudiante, Materia, Tema
-
+from .fpdf.converter import *
 # Create your views here.
 
 class ProfesorViewSet(viewsets.ModelViewSet):
@@ -31,3 +31,6 @@ class ActividadViewSet(viewsets.ModelViewSet):
 class CuadernoViewSet(viewsets.ModelViewSet):
     queryset = Cuaderno.objects.all()
     serializer_class = CuadernoSerializer
+
+class CreatePDF(viewsets.ViewSet):
+    crearDoc()
