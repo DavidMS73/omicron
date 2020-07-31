@@ -6,7 +6,8 @@ import backend.utils as ut
 from django.views.decorators.csrf import csrf_exempt
 from .serializers import ProfesorSerializer, ActividadSerializer, CriterioSerializer, CuadernoSerializer, EstudianteSerializer, MateriaSerializer, TemaSerializer
 from .models import Profesor, Actividad, Criterio, Cuaderno, Estudiante, Materia, Tema
-
+from .fpdf.converter import *
+from django.utils.decorators import method_decorator
 # Create your views here.
 
 class ProfesorViewSet(viewsets.ModelViewSet):
@@ -37,8 +38,6 @@ class CuadernoViewSet(viewsets.ModelViewSet):
     queryset = Cuaderno.objects.all()
     serializer_class = CuadernoSerializer
 
-from django.utils.decorators import method_decorator
-
 @method_decorator(csrf_exempt, name='dispatch')
 class ActividadSubmitView(View):
     @csrf_exempt
@@ -52,3 +51,6 @@ class ActividadSubmitView(View):
             return HttpResponse()
         else:
             return HttpResponseBadRequest()
+
+class CreatePDF(viewsets.ViewSet):
+    crearDoc()
