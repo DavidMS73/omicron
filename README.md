@@ -9,7 +9,7 @@ Este proyecto contiene los archivos del backend para el sistema Omicron, proyect
 
 3. Instalar los requerimientos con:
 ```
-   pip install -r requirements.txt
+   pip install -r requeriments.txt
 ```
 4. Ejecutar:
 ```
