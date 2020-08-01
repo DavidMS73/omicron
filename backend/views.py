@@ -8,9 +8,9 @@ from .models import Profesor, Actividad, Criterio, Cuaderno, Estudiante, Materia
 from .utils import generate_qr
 from .decorators import validate_request_data
 from rest_framework.throttling import UserRateThrottle, AnonRateThrottle
-from django.http import HttpResponse, HttpResponseBadRequest
+from django.http import HttpResponse, HttpResponseBadRequest, FileResponse
 from django.views import View
-import json
+import json, requests
 import backend.activityProcessing as ap
 from django.views.decorators.csrf import csrf_exempt
 from .fpdf.converter import *
@@ -92,6 +92,12 @@ class ActividadSubmitView(View):
         else:
             return HttpResponseBadRequest()
 
+def getNotebook(request, est_id, mat_id):
+    archivo = ap.getActivities(est_id, mat_id)
+    
+    return FileResponse(open(archivo, 'rb'))
+
 
 class CreatePDF(viewsets.ViewSet):
-    crearDoc()
+    image_list = []
+    crearDoc(image_list)
