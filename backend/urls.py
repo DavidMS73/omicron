@@ -21,5 +21,6 @@ urlpatterns = [
     path('actividades/createqr', views.CreateQRView.as_view(),
          name="songs-list-create"),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    path('submitActivity/', views.ActividadSubmitView.as_view())
+    path('submitActivity/', views.ActividadSubmitView.as_view()),
+    path('notebook/<int:est_id>/<int:mat_id>', views.getNotebook)
 ]
